@@ -1,11 +1,13 @@
 package messaging
 
 import (
+	"fmt"
 	"log/slog"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 )
 
 type Consumer struct {
@@ -20,7 +22,7 @@ func NewConsumer(queueURL string) *Consumer {
 	}
 }
 
-type HandlerFunc func(body string) error
+type HandlerFunc func(messages []string) error
 
 // Inicia o consumo executando o HandlerFunc informado
 func (c *Consumer) StartConsumer(handler HandlerFunc) error {
@@ -35,7 +37,7 @@ func (c *Consumer) StartConsumer(handler HandlerFunc) error {
 		default:
 		}
 
-		resp, err := c.client.ReceiveMessage(messagingContext, &sqs.ReceiveMessageInput{
+		out, err := c.client.ReceiveMessage(messagingContext, &sqs.ReceiveMessageInput{
 			QueueUrl:            aws.String(c.queueURL), //URL da file do SQS
 			MaxNumberOfMessages: 10,                     // Quantidade máxima de mensagens recebidas
 			WaitTimeSeconds:     20,                     // Define um tempo de espera para não ter que consultar o SQS em loop constante
@@ -48,31 +50,43 @@ func (c *Consumer) StartConsumer(handler HandlerFunc) error {
 			continue
 		}
 
-		if len(resp.Messages) == 0 {
+		if len(out.Messages) == 0 {
 			continue
 		}
 
-		for _, msg := range resp.Messages {
-			if msg.Body == nil {
-				slog.Warn("Mensagem sem body recebida")
-				continue
-			}
-
-			// Processa a mensagem
-			if err := handler(*msg.Body); err != nil {
-				slog.Error("Erro ao processar mensagem", "error", err)
-				continue // NÃO deleta → SQS reentrega
-			}
-
-			// Deleta somente se processar com sucesso
-			_, err := c.client.DeleteMessage(messagingContext, &sqs.DeleteMessageInput{
-				QueueUrl:      aws.String(c.queueURL),
-				ReceiptHandle: msg.ReceiptHandle,
-			})
-
-			if err != nil {
-				slog.Error("Erro ao deletar mensagem do SQS", "error", err)
-			}
+		bodies := make([]string, 0, len(out.Messages)) // Cria um array que comportará os bodies
+		for _, msg := range out.Messages {
+			bodies = append(bodies, aws.ToString(msg.Body)) // Adiciona as mensagens no array as transformando em strings
 		}
+
+		if err := handler(bodies); err != nil {
+			slog.Error("erro ao processar lote", "error", err)
+			continue
+		}
+
+		c.deleteBatch(out.Messages)
+	}
+}
+
+func (c *Consumer) deleteBatch(
+	messages []types.Message,
+) {
+
+	entries := make([]types.DeleteMessageBatchRequestEntry, 0, len(messages)) // Cria um array de Entrys (mensagens)
+
+	for i, msg := range messages {
+		entries = append(entries, types.DeleteMessageBatchRequestEntry{ // Popula o array
+			Id:            aws.String(fmt.Sprintf("msg-%d", i)),
+			ReceiptHandle: msg.ReceiptHandle,
+		})
+	}
+
+	_, err := c.client.DeleteMessageBatch(messagingContext, &sqs.DeleteMessageBatchInput{
+		QueueUrl: aws.String(c.queueURL),
+		Entries:  entries, // Passa o array inteiro para delete
+	})
+
+	if err != nil {
+		slog.Error("erro ao deletar batch", "error", err)
 	}
 }
