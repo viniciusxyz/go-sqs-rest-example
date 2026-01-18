@@ -22,6 +22,10 @@ func LogHandler(body string) error {
 }
 
 func InicializarConsumers() {
+	if !config.ConsumersEnabled {
+		slog.Warn("A env SQS_CONSUMERS_ENABLED está como false. Os consumers serão desativados")
+		return
+	}
 	consumer := messaging.NewConsumer(config.QueueURL)
 	go consumer.StartConsumer(LogHandler) //Cria uma coroutine a parte para execução do consumer para não travar a aplicação
 }
