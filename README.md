@@ -21,7 +21,7 @@ Essa é uma aplicação extremamente simples usada apenas para exemplificar o co
 
 No diretório `k6` existe um teste bem bobo feito para enviar requisições para o endpoint de envio de mensagens. Um exemplo simples de utilização:
 
-:warning: Cuidado com a emoção aqui lembre-se que o SQS é pago e que se você enviar mensagens sem cuidado isso vai doer no bolso.
+:warning: Cuidado com a emoção aqui! Lembre-se que o SQS é pago e que se você enviar mensagens sem cuidado isso vai doer no bolso.
 
 ```sh
 k6 run --vus 10 --iterations 10 .\k6.js
