@@ -1,4 +1,4 @@
-## Aplicação de exemplo para SQS
+## Aplicação de exemplo para SQS com GO
 
 Essa é uma aplicação extremamente simples usada apenas para exemplificar o consumo de mensagens usando SQS e a serialização e deserialização de dados em GO
 
@@ -14,11 +14,10 @@ Essa é uma aplicação extremamente simples usada apenas para exemplificar o co
 
 Adicione as variáveis abaixo:
 
-SQS_QUEUE_URL: Endereço da fila do SQS para onde as mensagens serão enviadas e recebidas
-AWS_ACCESS_KEY_ID: ID da chave de acesso da AWS
-AWS_SECRET_ACCESS_KEY: Chave de acesso da AWS
-AWS_REGION: Região da AWS
-
+- SQS_QUEUE_URL: Endereço da fila do SQS para onde as mensagens serão enviadas e recebidas
+- AWS_ACCESS_KEY_ID: ID da chave de acesso da AWS
+- AWS_SECRET_ACCESS_KEY: Chave de acesso da AWS
+- AWS_REGION: Região da AWS
 
 ### Usando
 
