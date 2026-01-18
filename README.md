@@ -10,7 +10,6 @@ Essa é uma aplicação extremamente simples usada apenas para exemplificar o co
 - No pacote `consumers` são definidos os consumers em si (Talvez isso tenha ficado meio confuso?);
 - No pacote `router` a classe que dá inicio ao GIN Server (Servidor http para receber requisições) é definida;
 
-
 ### Branchs
 
 - `dev:` O Consumo das mensagens é feito em modo **Single** ou seja uma mensagem processada a por vez
@@ -37,6 +36,16 @@ k6 run --vus 10 --iterations 10 .\k6.js
 | Single          | 166.665      |
 
 ![](./assets/grafico-modo-consumo.png)
+
+Para fazer os testes adicionei uma env chamada `SQS_CONSUMERS_ENABLED` que controla se os consumers devem ou não ser habilitados ou seja o processo foi:
+
+1. Adicionar env `SQS_CONSUMERS_ENABLED=false`
+2. Subir a aplicação
+3. Enviar 1000 mensagens usando o K6
+4. Parar a aplicação
+5. Adicionar env `SQS_CONSUMERS_ENABLED=true`
+6. Subir a aplicação
+7. Aguardar o consumo das mensagens e verificar os tempos
 
 ### Configurando
 
