@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
-	"br.com.viniciusxyz/go-sqs-rest-example/models"
-	"br.com.viniciusxyz/go-sqs-rest-example/services"
 	"github.com/gin-gonic/gin"
+	"github.com/viniciusxyz/go-sqs-rest-example/models"
+	"github.com/viniciusxyz/go-sqs-rest-example/services"
 )
 
 func DepositoController(c *gin.Context) {

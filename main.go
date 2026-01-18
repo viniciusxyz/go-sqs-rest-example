@@ -3,15 +3,23 @@ package main
 import (
 	"context"
 	"log/slog"
+	"os"
 	"os/signal"
 	"syscall"
 
-	"br.com.viniciusxyz/go-sqs-rest-example/consumers"
-	"br.com.viniciusxyz/go-sqs-rest-example/messaging"
-	"br.com.viniciusxyz/go-sqs-rest-example/router"
+	"github.com/viniciusxyz/go-sqs-rest-example/consumers"
+	"github.com/viniciusxyz/go-sqs-rest-example/messaging"
+	"github.com/viniciusxyz/go-sqs-rest-example/router"
 )
 
 func main() {
+
+	// Configuração do handler do log para apresentar informações com millis
+	handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	})
+
+	slog.SetDefault(slog.New(handler))
 
 	//Cria o contexto para gracefulShutdown
 	ctx, stop := signal.NotifyContext(
