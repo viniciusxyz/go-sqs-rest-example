@@ -2,6 +2,9 @@
 
 Essa é uma aplicação extremamente simples usada apenas para exemplificar o consumo de mensagens usando SQS e a serialização e deserialização de dados em GO
 
+
+:warning: Não leve essa arquitetura como a melhor para produção sem entender o contexto de onde trabalha! Isso foi feito por alguém que tem pouco contato com Golang e nunca trabalhou em um time com essa linguagem para fins que não fossem aplicações de gerenciamento de infraestrutura e templates de projetos.
+
 **Pontos relevantes:**
 
 - No pacote `messaging` são definidos templates para criação de consumers e producers do SQS além da configuração;
