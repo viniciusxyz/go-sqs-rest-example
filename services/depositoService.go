@@ -1,9 +1,9 @@
 package services
 
 import (
-	"br.com.viniciusxyz/go-sqs-rest-example/config"
-	"br.com.viniciusxyz/go-sqs-rest-example/messaging"
-	"br.com.viniciusxyz/go-sqs-rest-example/models"
+	"github.com/viniciusxyz/go-sqs-rest-example/config"
+	"github.com/viniciusxyz/go-sqs-rest-example/messaging"
+	"github.com/viniciusxyz/go-sqs-rest-example/models"
 )
 
 var producer *messaging.Producer

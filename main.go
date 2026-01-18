@@ -6,9 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"br.com.viniciusxyz/go-sqs-rest-example/consumers"
-	"br.com.viniciusxyz/go-sqs-rest-example/messaging"
-	"br.com.viniciusxyz/go-sqs-rest-example/router"
+	"github.com/viniciusxyz/go-sqs-rest-example/consumers"
+	"github.com/viniciusxyz/go-sqs-rest-example/messaging"
+	"github.com/viniciusxyz/go-sqs-rest-example/router"
 )
 
 func main() {

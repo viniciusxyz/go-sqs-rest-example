@@ -27,6 +27,7 @@ Adicione as variáveis abaixo:
 1. Inicie a aplicação
 
 ```sh
+go mod download
 go run main.go
 ```
 

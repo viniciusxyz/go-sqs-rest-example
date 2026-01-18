@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"log/slog"
 
-	"br.com.viniciusxyz/go-sqs-rest-example/config"
-	"br.com.viniciusxyz/go-sqs-rest-example/messaging"
-	"br.com.viniciusxyz/go-sqs-rest-example/models"
+	"github.com/viniciusxyz/go-sqs-rest-example/config"
+	"github.com/viniciusxyz/go-sqs-rest-example/messaging"
+	"github.com/viniciusxyz/go-sqs-rest-example/models"
 )
 
 func LogHandler(body string) error {

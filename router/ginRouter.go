@@ -1,8 +1,8 @@
 package router
 
 import (
-	"br.com.viniciusxyz/go-sqs-rest-example/controllers"
 	"github.com/gin-gonic/gin"
+	"github.com/viniciusxyz/go-sqs-rest-example/controllers"
 )
 
 func InicializarRotas() error {
